@@ -66,18 +66,18 @@ def relationship_maker_by_block(block_number, borough_name):
                             print("2021{},{},{},{},2021".format(record_row_aux['BBL'],record_row_aux['Borough'],record_row_aux['Block'],record_row_aux['Address']))
                         forma_shapely_aux = shape(shp_2021.shape(index_aux).__geo_interface__)
                         if(forma_shapely.intersects(forma_shapely_aux)):
-                            area = forma_shapely.intersection(forma_shapely_aux).area
-                            if area > 0:
+                            intersect_area = forma_shapely.intersection(forma_shapely_aux).area
+                            if intersect_area > 0:
                                 #registrando apenas intersecao com area maior q zero (estranho, mas o intersects ta dando true para intersecao com area zero)
-                                edges_csv.write("2020{},2021{},{}\n".format(record_row['BBL'],record_row_aux['BBL'],area))
-                                print("2020{},2021{},{}".format(record_row['BBL'],record_row_aux['BBL'],area))
+                                edges_csv.write("2020{},2021{},{},{},{}\n".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,forma_shapely.area/intersect_area, forma_shapely_aux.area/intersect_area))
+                                print("2020{},2021{},{},{},{}".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,forma_shapely.area/intersect_area, forma_shapely_aux.area/intersect_area))
                     index_aux += 1
             index += 1        
         
 
 #relationship_maker(5)
-relationship_maker_by_block(6, 'MN')    
-relationship_maker_by_block(7, 'MN')           
-relationship_maker_by_block(8, 'MN')
-relationship_maker_by_block(9, 'MN')
-relationship_maker_by_block(10, 'MN')
+#relationship_maker_by_block(16, 'MN')    
+#rlationship_maker_by_block(17, 'MN')           
+#relationship_maker_by_block(18, 'MN')
+#relationship_maker_by_block(19, 'MN')
+relationship_maker_by_block(22, 'MN')
