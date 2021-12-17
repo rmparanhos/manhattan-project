@@ -10,4 +10,4 @@ WITH "https://raw.githubusercontent.com/rmparanhos/manhattan-project/main/0910/M
 LOAD CSV WITH HEADERS FROM uri AS row
 MATCH (source:Lot2009 {bbl: row.Source})
 MATCH (target:Lot2010 {bbl: row.Target})
-MERGE (source)-[:INTERSECTION {area: toFloat(row.Area),areaA: toFloat(row.AreaA),areaB: toFloat(row.AreaB)}]->(target))
+MERGE (source)-[:INTERSECTION {area: toFloat(row.Area),areaA: toFloat(row.AreaA),areaB: toFloat(row.AreaB)}]->(target)

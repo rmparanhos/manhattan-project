@@ -34,7 +34,7 @@ def relationship_maker_by_block_09_10(block_number, borough_name):
         neo4j.write("""LOAD CSV WITH HEADERS FROM uri AS row\n""")
         neo4j.write("""MATCH (source:Lot2009 {bbl: row.Source})\n""")
         neo4j.write("""MATCH (target:Lot2010 {bbl: row.Target})\n""")
-        neo4j.write("""MERGE (source)-[:INTERSECTION {area: toFloat(row.Area),areaA: toFloat(row.AreaA),areaB: toFloat(row.AreaB)}]->(target))\n""")
+        neo4j.write("""MERGE (source)-[:INTERSECTION {area: toFloat(row.Area),areaA: toFloat(row.AreaA),areaB: toFloat(row.AreaB)}]->(target)\n""")
         
         nodes_records_2009 = []
         nodes_records_2010 = []
