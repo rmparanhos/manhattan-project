@@ -61,21 +61,23 @@ def relationship_maker_by_block_09_10(block_number, borough_name):
                 if "2009{}".format(record_row['BBL']) not in nodes_names_list:
                     nodes_names_list.append("2009{}".format(record_row['BBL']))
                     nodes2009_csv.write("2009{},{},{},{},2009\n".format(record_row['BBL'],record_row['Borough'],record_row['Block'],record_row['Address']))
-                    print("2009{},{},{},{},2009".format(record_row['BBL'],record_row['Borough'],record_row['Block'],record_row['Address']))
+                    #print("2009{},{},{},{},2009".format(record_row['BBL'],record_row['Borough'],record_row['Block'],record_row['Address']))
                 index_aux = 0
                 for record_row_aux in nodes_records_2010:
                     if record_row_aux['Block'] == block_number and record_row_aux['Borough'] == borough_name:
                         if "2010{}".format(record_row_aux['BBL']) not in nodes_names_list:
                             nodes_names_list.append("2010{}".format(record_row_aux['BBL']))
                             nodes2010_csv.write("2010{},{},{},{},2010\n".format(record_row_aux['BBL'],record_row_aux['Borough'],record_row_aux['Block'],record_row_aux['Address']))
-                            print("2010{},{},{},{},2010".format(record_row_aux['BBL'],record_row_aux['Borough'],record_row_aux['Block'],record_row_aux['Address']))
+                            #print("2010{},{},{},{},2010".format(record_row_aux['BBL'],record_row_aux['Borough'],record_row_aux['Block'],record_row_aux['Address']))
                         forma_shapely_aux = shape(nodes_shapes_2010[index_aux].__geo_interface__)
                         if(forma_shapely.intersects(forma_shapely_aux)):
                             intersect_area = forma_shapely.intersection(forma_shapely_aux).area
                             if intersect_area > 1:
                                 #registrando apenas intersecao com area maior q zero (estranho, mas o intersects ta dando true para intersecao com area zero)
                                 edges_csv.write("2009{},2010{},{},{},{}\n".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,intersect_area/forma_shapely.area, intersect_area/forma_shapely_aux.area))
-                                print("2009{},2010{},{},{},{}".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,intersect_area/forma_shapely.area, intersect_area/forma_shapely_aux.area))
+                                #print("2009{},2010{},{},{},{}".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,intersect_area/forma_shapely.area, intersect_area/forma_shapely_aux.area))
+                                if(intersect_area/forma_shapely.area < 0.98 or intersect_area/forma_shapely_aux.area < 0.98):
+                                    print("Found intersection ratio lower than 0.98, verify block {}".format(block_number))
                     index_aux += 1
             index += 1 
     print(f"Borough {borough_name}, Block {block_number}, took {time.perf_counter()- tic:0.4f} seconds")    
@@ -146,21 +148,23 @@ def relationship_maker_by_block_range_09_10(initial_block_number, final_block_nu
                     if "2009{}".format(record_row['BBL']) not in nodes_names_list:
                         nodes_names_list.append("2009{}".format(record_row['BBL']))
                         nodes2009_csv.write("2009{},{},{},{},2009\n".format(record_row['BBL'],record_row['Borough'],record_row['Block'],record_row['Address']))
-                        print("2009{},{},{},{},2009".format(record_row['BBL'],record_row['Borough'],record_row['Block'],record_row['Address']))
+                        #print("2009{},{},{},{},2009".format(record_row['BBL'],record_row['Borough'],record_row['Block'],record_row['Address']))
                     index_aux = 0
                     for record_row_aux in nodes_records_2010:
                         if record_row_aux['Block'] == block_number and record_row_aux['Borough'] == borough_name:
                             if "2010{}".format(record_row_aux['BBL']) not in nodes_names_list:
                                 nodes_names_list.append("2010{}".format(record_row_aux['BBL']))
                                 nodes2010_csv.write("2010{},{},{},{},2010\n".format(record_row_aux['BBL'],record_row_aux['Borough'],record_row_aux['Block'],record_row_aux['Address']))
-                                print("2010{},{},{},{},2010".format(record_row_aux['BBL'],record_row_aux['Borough'],record_row_aux['Block'],record_row_aux['Address']))
+                                #print("2010{},{},{},{},2010".format(record_row_aux['BBL'],record_row_aux['Borough'],record_row_aux['Block'],record_row_aux['Address']))
                             forma_shapely_aux = shape(nodes_shapes_2010[index_aux].__geo_interface__)
                             if(forma_shapely.intersects(forma_shapely_aux)):
                                 intersect_area = forma_shapely.intersection(forma_shapely_aux).area
                                 if intersect_area > 1:
                                     #registrando apenas intersecao com area maior q zero (estranho, mas o intersects ta dando true para intersecao com area zero)
                                     edges_csv.write("2009{},2010{},{},{},{}\n".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,intersect_area/forma_shapely.area, intersect_area/forma_shapely_aux.area))
-                                    print("2009{},2010{},{},{},{}".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,intersect_area/forma_shapely.area, intersect_area/forma_shapely_aux.area))
+                                    #print("2009{},2010{},{},{},{}".format(record_row['BBL'],record_row_aux['BBL'],intersect_area,intersect_area/forma_shapely.area, intersect_area/forma_shapely_aux.area))
+                                    if(intersect_area/forma_shapely.area < 0.98 or intersect_area/forma_shapely_aux.area < 0.98):
+                                        print("Found intersection ratio lower than 0.98, verify block {}".format(block_number))
                         index_aux += 1
                 index += 1 
         print(f"Borough {borough_name}, Block {block_number}, took {time.perf_counter()- tic:0.4f} seconds")    
@@ -168,4 +172,4 @@ def relationship_maker_by_block_range_09_10(initial_block_number, final_block_nu
 
 
 #relationship_maker_by_block_09_10(100,"MN")
-relationship_maker_by_block_range_09_10(350,360,"MN")    
+relationship_maker_by_block_range_09_10(1,360,"MN")    
